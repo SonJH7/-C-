@@ -1,0 +1,106 @@
+05 :: 배열
+05-1
+  :: n차원 배열과 초기화 그리고 그 주소(&)
+05-2
+  :: O(1)  임의접근, 맨뒤 삽입
+  :: O(N) 맨 앞 삽입, 중간 삽입 (미는 연산)
+05-3
+  :: 문제 01 :: 배열 정렬하기 (권장 시간 복잡도 : O(NlogN)
+
+  #include <vector>
+  #include <algorithm>
+
+  using namespace std;
+
+  vector<int> solution(vector <int> arr){
+    sort(arr.begin(),arr.end());
+    return arr;
+  }
+
+:: 문제 02 :: 배열 제어하기 (권장 시간 복잡도: O(NlogN)
+
+  #include <vector>
+  #include <algorithm>
+
+  using namespace std;
+
+  vector<int> solution(vector <int> lst){
+    sort(lst.rbigin(), lst.rend());
+    lst.erase(unique(lst.begin(),lst.end()),lst.end());
+    return lst;
+  }
+
+05-4
+  :: 문제 03:: ( 프로그래머스 _ 두 수를 뽑아서 더하기)
+ex)
+  numbers --> 서로 다른 인덱스에 있는 2개의 수 뽑고 더하기 -> 그 수들 모두 배열에 담아 오름차순으로 반환
+  이중 for문 모든 경우의 수 새로운 배열에 넣기 -> 정렬 후 erase,unique 
+
+처음에 벡터 배열 잘못해서 cin >> numbers 이렇게 해버림 
+
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+vector<int> solution(vector<int> numbers) {
+    vector<int> answer;
+    for(int i = 0; i < numbers.size() - 1; i++) {
+        for (int j = i + 1; j < numbers.size(); j++) {
+            answer.push_back(numbers[i] + numbers[j]);
+        }
+    }
+    sort(answer.begin(), answer.end());   
+    answer.erase(unique(answer.begin(), answer.end()), answer.end());
+    
+    return answer;
+}
+
+int main() {
+    int n;  
+    cin >> n;
+
+    vector<int> numbers(n);  
+    for (int i = 0; i < n; i++) {
+        cin >> numbers[i];  
+    }
+
+    vector<int> result = solution(numbers); 
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+//set 자료구조를 쓰면 알아서 중복 제거, 오름차순이 되는구
+
+  :: 문제 04 :: 모의 고사 ( 프로그래머스_완전탐색 ) <--- 건너뜀 -->
+
+  :: 문제 05 행렬의 곱셈  ( 프로그래머스 _ 연습문제)
+그냥 막 해부렸으 행렬의 연산시 인덱스만 주의 
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2) {
+    
+    int row1 = arr1.size(), col1 = arr1[0].size(), row2 = arr2.size(), col2 = arr2[0].size();
+    vector<vector<int>> answer(row1, vector<int>(col2, 0));
+    for(int i=0; i<row1; i++){
+        for(int j=0; j<col2; j++){
+            for(int k=0; k<col1; k++){
+                answer[i][j] += arr1[i][k]*arr2[k][j];
+            }
+        }
+    }
+    return answer;
+}
+:: 문제 06 :: 실패율 ( 프로그래머스_KaKao ) <--- 건너뜀 -->
+:: 문제 07 :: 방문 길이 ( 프로그래머스 ) <--- 건너뜀 -->
+U: 위 , D : 아래 , R: 오른쪽, L: 왼쪽 --> 전체를 0으로 초기화 한 10*10 2차원 배열로 생각 -->  이동 시 마다 좌표에 +1 --> 0이 아닌 좌표는 카운트 x
+  --> 예외가 너무 많다... 모르겠다.... set을 공부해야할듯
+  
