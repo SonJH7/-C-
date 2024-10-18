@@ -1,0 +1,89 @@
+# 00 :: 코딩테스트를 준비하기 전에
+00-1 
+  :: 타인의 풀이를 보면 사고를 넓힐 수 있다.
+  :: 나만의 테스트 케이스를 추가하는 건 좋은 알고리즘을 생각할 때 도움이 된다.
+00-2
+  :: 첫번째, 기록하라  (알든 모르든)
+  :: 시험보듯 공부하라
+  :: 짧은 시간 공부해서는 절대 코테 통과 x
+  :: 정말 잘 이해했는지 나만의 언어로 요약하라.
+
+# 01 :: 코딩테스트 효율적으로 준비하기
+01-1 c++, java, python
+01-2 
+  :: 문제를 쪼개서 분석하라(전체시간의 50퍼 정도)
+  :: 제약 사항을 파악하고 테스트 케이스를 추가하라
+  :: 입력 크기를 분석하라
+  :: 핵심 키워드를 파악하라 (스택, 큐, 탐색, 최단경로, 백트래킹..)
+  :: 데이터 흐름이나 구성을 파악하라 (자료구조..)
+01-3
+  :: 세부 구현이 아닌 동작 중심으로 작성하라
+  :: 문제해결 순서로 작성하라.
+  :: 충분히 테스트하라
+
+# 02 :: 프로그래머스 완벽 활용 가이드
+# 03 :: 알고리즘 효율 분석
+  :: 빅오 표기법 최악의 경우 시간 복잡도 (초당 1억번 연산)
+
+# 04 :: 코딩테스트 필수 문법
+04-1 
+  :: 정수형, 부동소수형, 형변환(static_cast<int>)
+  :: 문자열
+  ex)
+  string str1; 빈문자열 선언
+  string str2 = "Hello, World!"; 문자열 직접 초기화
+  string str3(str2); 문자열 복사
+  string str4(str2, 0, 5); 문자열 부분 복사 초기화
+  string str5(10, '*'); 반복된 문자로 문자열 초기화
+
+  ex)
+  문자열 찾기 find(찾으려는 문자열,탐색 시작위치) -->인덱스 반환
+  문자열 추가,수정 replace(시작위치,길이,바꿀문자), +=
+
+04-2
+  :: 레퍼런스 벨류 구분 
+  :: auto 자동 추론 타입 --> 출력시 *붙혀서
+  :: for( 타입 변수명 : 컨테이너)
+  ex)
+  vector<int> vec = {1,2,3,4,5};
+  for( int num : vec) 
+    cout << num;
+
+  map<string,int> fruitMap ={{"apple",1}, {"banana", 2}, {"cherry", 3}};
+  for (const auto& pair :fruitMap)
+    cout << pair.first << pair.second;
+
+  set<string> fruitSet = {"apple", "banana", "cherry"};
+  for (const auto& fruit : fruitSet) 
+    cout << fruit;
+
+04-3
+  ::벡터
+문법 정리
+vector<vector<int>> v1;
+vector<vector<int>> v2(rows, vector<int>(cols));
+vector<vector<int>> v3(rows, vector<int>(cols, val));
+
+n_bunhae.push_back(i); 벡터에  맨뒤추가
+n_bunhae.pop_back(); 벡터 맨뒤 삭제
+n.insert(i); 맨 앞 원소 삽입
+n.insert(index,i); 
+n.erase(i); 맨 앞 원소 삭제
+n.erase(index,i);
+n.empty() 비어있을 경우 1 아니면 0
+ :: 셋과 맵 잠시 넘어감 100페이지 쯤
+
+04-4
+  #include <algorithm>
+  :: count(v.begin(), v.end(), 5); 5라는 값이 몇번 나왔는지
+  :: sort(v.rbegin(), v.rend()); 내림차순
+  :: next_permutation(v.begin(),v.end()); 모든 가능한 순열 출력
+  :: unique(v.begin(), v.end()); 중복 ㅈㅔ거
+  :: binary_search(v.begin(), v.end(), 5); 정렬된 이진탐색 있으면 1 없으면 0
+  :: max_element(v.behin(), v.end());
+
+04-5
+  :: 함수
+04-6 코딩테스트 코드 구현 노하우
+  :: 조기반환 예외처리 코드 가독성 높여줌
+  :: 보호구문 empty() 같은 걸로  예외처리
