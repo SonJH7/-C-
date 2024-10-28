@@ -88,6 +88,12 @@ int main() {
   for (auto it = v.begin(); it != v.end(); ++it){
     cout << *it << " ";  //순회하고 출력
   }
+/* c++ 14 버전 아니면 i=0, i<v.size() 도 가능
+for (vector<int>::iterator i = lst.begin(); i != lst.end(); ++i) {  // 반복자 명시적 사용
+        s.insert(*i); // 요소 추가
+    }
+*/
+
 cout << endl;
 
 auto result = find(v.begin(), v.end(), 30);
