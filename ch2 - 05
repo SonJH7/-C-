@@ -181,7 +181,39 @@ vector<int> solution(int N, vector<int> stages) {
 }
 
 
-:: 문제 07 :: 방문 길이 ( 프로그래머스 ) <--- 건너뜀 -->
+:: 문제 07 :: 방문 길이 ( 프로그래머스 ) 
 U: 위 , D : 아래 , R: 오른쪽, L: 왼쪽 --> 전체를 0으로 초기화 한 10*10 2차원 배열로 생각 -->  이동 시 마다 좌표에 +1 --> 0이 아닌 좌표는 카운트 x
-  --> 예외가 너무 많다... 모르겠다.... set을 공부해야할듯
-  
+  --> 예외가 너무 많다... 모르겠다.... 점으로 하다보니 답이 없다고 생각함
+--> pair로 시작위치 끝위치 전부 저장후 
+
+#include <string>
+#include <set>
+
+using namespace std;
+
+int solution(string dirs) {
+    int answer = 0;
+    pair<int, int> position = {5, 5}; 
+    set<pair<pair<int,int>, pair<int,int>>> visited;
+    
+    for(char dir : dirs){
+        pair<int, int> start = position;
+        
+        if(dir == 'U' && position.first < 10) position.first++;
+        else if (dir == 'D' && position.first > 0) position.first--;
+        else if (dir == 'R' && position.second < 10) position.second++;
+        else if (dir == 'L' && position.second > 0) position.second--;
+
+        pair<int, int> end = position;
+    
+        if(start != end){
+            if (visited.find({start, end}) == visited.end() && visited.find({end, start}) == visited.end()) {
+                visited.insert({start, end});
+                visited.insert({end, start}); // 양방향으로 경로 기록
+                answer++;
+            }
+        }
+    }
+    return answer;
+}
+  --> 책의 풀이는 이해가 안간다..
