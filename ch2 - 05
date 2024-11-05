@@ -77,7 +77,8 @@ int main() {
 }
 //set 자료구조를 쓰면 알아서 중복 제거, 오름차순이 되는구
 
-  :: 문제 04 :: 모의 고사 ( 프로그래머스_완전탐색 ) <--- 건너뜀 -->
+  :: 문제 04 :: 모의 고사 ( 프로그래머스_완전탐색 ) 
+이거 그냥 완전 모듈러 연산 항상 반복되는 무언가는 '나머지' 생각
 
   :: 문제 05 행렬의 곱셈  ( 프로그래머스 _ 연습문제)
 그냥 막 해부렸으 행렬의 연산시 인덱스만 주의 
@@ -99,7 +100,87 @@ vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2)
     }
     return answer;
 }
-:: 문제 06 :: 실패율 ( 프로그래머스_KaKao ) <--- 건너뜀 -->
+:: 문제 06 :: 실패율 ( 프로그래머스_KaKao ) 
+// 알고리즘은 쉬우나 구현 문법을 몰라 gpt
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+vector<int> solution(int N, vector<int> stages) {
+    int bm = 0, bj = 0;
+    map<int, float> a;
+    vector<int> answer;
+
+    // N보다 큰 스테이지에 도달한 플레이어 수를 분모에 넣기
+    for (int i = 0; i < stages.size(); i++) {
+        if (stages[i] > N) bm++;
+    }
+
+    // 각 스테이지의 실패율 계산하여 맵에 저장
+    for (int i = N; i > 0; i--) {
+        int t = count(stages.begin(), stages.end(), i); // 현재 스테이지에 있는 플레이어 수
+        bm += t;
+        if (bm > 0) a[i] = static_cast<float>(t) / bm; // 실패율 저장
+        else a[i] = 0; // 분모가 0인 경우 실패율 0
+    }
+
+    // map을 vector<pair<int, float>>로 변환하여 실패율을 기준으로 정렬
+    vector<pair<int, float>> failureRates(a.begin(), a.end());
+    sort(failureRates.begin(), failureRates.end(), [](const pair<int, float>& a, const pair<int, float>& b) {
+        if (a.second == b.second) return a.first < b.first; // 실패율이 같으면 스테이지 번호 오름차순
+        return a.second > b.second; // 실패율 내림차순
+    });
+
+    // 정렬된 스테이지 번호를 answer에 추가
+    for (const auto& p : failureRates) {
+        answer.push_back(p.first);
+    }
+
+    return answer;
+}
+처음엔 맵으로 하고 받았는데 pair을 쓴느데 굳이 맵?
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(int N, vector<int> stages) {
+    int bm = 0, bj = 0;
+    vector<pair<int, float>> failureRates;
+    vector<int> answer;
+
+    // N보다 큰 스테이지에 도달한 플레이어 수를 분모에 넣기
+    for (int stage : stages) {
+        if (stage > N) bm++;
+    }
+
+    // 각 스테이지의 실패율 계산하여 벡터에 저장
+    for (int i = N; i > 0; i--) {
+        int t = count(stages.begin(), stages.end(), i); // 현재 스테이지에 있는 플레이어 수
+        bm += t;
+        float failureRate = (bm > 0) ? static_cast<float>(t) / bm : 0; // 실패율
+        failureRates.push_back({i, failureRate});
+    }
+
+    // 실패율을 기준으로 정렬
+    sort(failureRates.begin(), failureRates.end(), [](const pair<int, float>& a, const pair<int, float>& b) {
+        if (a.second == b.second) return a.first < b.first; // 실패율이 같으면 스테이지 번호 오름차순
+        return a.second > b.second; // 실패율 내림차순
+    });
+
+    // 정렬된 스테이지 번호를 answer에 추가
+    for (const auto& p : failureRates) {
+        answer.push_back(p.first);
+    }
+
+    return answer;
+}
+
+
 :: 문제 07 :: 방문 길이 ( 프로그래머스 ) <--- 건너뜀 -->
 U: 위 , D : 아래 , R: 오른쪽, L: 왼쪽 --> 전체를 0으로 초기화 한 10*10 2차원 배열로 생각 -->  이동 시 마다 좌표에 +1 --> 0이 아닌 좌표는 카운트 x
   --> 예외가 너무 많다... 모르겠다.... set을 공부해야할듯
