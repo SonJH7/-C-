@@ -10,7 +10,7 @@
 06-3
   :: 문제 08 괄호 짝 맞추기 ( 저자출제 )
 괄호 ( 푸쉬 ) pop 간단한 원리  밑에가 첫 코드 테스트 케이스는 통과하지만  더 좋은 코드는 정답 코드인 아래코드
-(주의! ) 얘부터 나오는 예외코드 처리 잘하기)
+(주의! ')' 얘부터 나오는 예외코드 처리 잘하기)
 #include <iostream>
 #include <stack>
 #include <string>
@@ -68,7 +68,53 @@ string solution(int decimal){
     return result;
 }
 
-:: 문제 10 괄호 회전하기 (프로그래머스_ 월간 코드 챌린지) ---> 스킵
+:: 문제 10 괄호 회전하기 (프로그래머스_ 월간 코드 챌린지) 
+알고리즘은 첫번째 회전전 문자가 쌍이 맞는지 확인 -> 왼쪽으로 계속 시프트하며 for 문으로 확인
+#include <string>
+#include <vector>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+bool check_right(string s){
+    stack <char> st;
+    for(int i=0; i<s.length(); i++){
+        if((s[i] == '}' || s[i] == ']' || s[i] == ')' )&& st.empty())
+            return false;
+        if(s[i] == '{' || s[i] == '[' || s[i] == '(')
+            st.push(s[i]);
+        else if(s[i] == '}' && st.top() == '{'){
+            st.pop();
+        }
+        else if(s[i] == ']' && st.top() == '['){
+            st.pop();
+        }
+        else if(s[i] == ')' && st.top() == '('){
+            st.pop();
+        }
+    }
+     if(st.empty())
+            return true;
+        else
+            return false;
+}
+
+int solution(string s) {
+    int answer = 0;
+    
+    for(int i=0; i<s.length(); i++){
+        if(check_right(s))
+            answer++;
+        char temp = s[0];
+        for(int j=0; j<s.length(); j++){    
+            char temp = s[j+1];
+            s[j+1] = s[j];
+            s[j]  = temp;
+        }
+        s[s.length()-1] = temp;
+    }
+    return answer;
+}
 :: 문제 11 짝지어 제거하기 ( 프로그래머스_ 팁스타운) 
   스택으로 쓱쓱 같으면 pop 다르면 push
 
