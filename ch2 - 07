@@ -45,5 +45,60 @@ int solution (int n, int k){
   }
   return q.front();
 }
-:: 문제 16 기능 개발 ( 프로그래머스_스택/큐 ) ---> 스킵
+:: 문제 16 기능 개발 ( 프로그래머스_스택/큐 ) --->
+완전 벡터밖에 생각이 안나서 벡터로 
+a라는 중간 완료일 수 넣는 벡터 만들고-> 그기서 원소간 비교
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    
+    vector<int> a;
+    for(int i=0; i<progresses.size(); i++){
+        int t=0;
+        while(progresses[i]<100){
+            progresses[i] += speeds[i];
+            t++;    
+        }
+        cout << t << '\n';
+        a.push_back(t);
+    }
+    vector<int> answer;
+    int answer_t=1;
+    for(int i=0; i<a.size()-1; i++){
+        if (a[i]<a[i+1]){
+            answer.push_back(answer_t);
+            answer_t = 1;
+        }
+        else
+            answer_t++;
+    }
+    answer.push_back(answer_t);
+
+    return answer;
+}
+근데 이때 a[i]< a[i+1] 에서 계속 오류가 났는데 며칠동안 찾지못하다가 a에 저장된 원소기준 9,7,1,7일 경우
+answer에 새로운 원소가 생기면 안되는데 생김 그래서
+
+    vector<int> answer;
+    int answer_t=1;
+    int max_element = a[0];
+    for(int i=1; i<a.size(); i++){
+        if (a[i]>max_element){
+            answer.push_back(answer_t);
+            answer_t = 1;
+            max_element = a[i];
+        }
+        else
+            answer_t++;
+    }
+    answer.push_back(answer_t);
+
+    return answer;
+}
+아래부분만 이렇게 바꿈
+
 :: 문제 17 카드 뭉치 ( 프로그래머스_연습문제 ) ---> 스킵
