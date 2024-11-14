@@ -100,5 +100,48 @@ answer에 새로운 원소가 생기면 안되는데 생김 그래서
     return answer;
 }
 아래부분만 이렇게 바꿈
+다른 사람 풀이 보니까 while 과정 그냥 나눗셈 처리... 지린다 덱은 어떡하지? 책봐야지
 
-:: 문제 17 카드 뭉치 ( 프로그래머스_연습문제 ) ---> 스킵
+:: 문제 17 카드 뭉치 ( 프로그래머스_연습문제 ) 
+--> 처음에 덱을 안써도 되지않나 싶어 벡터하나만들고, 이중 for문으로 goal돌리고, 그안에 goal == card1|| card2 이런식으로 전부탐색하는걸로 했따가
+이러면 순서대로 출력이 안되고 탐색해서 출력해서 항상 같은 문장이 나오는 걸 발견
+
+--> 그래서 선입선출 구조인 큐를 써야겠따고 생각 q1,q2 큐 만들어서 cards1, cards2 집어넣고 처음 넣은거랑 goal이랑 같은거만 새로운 벡터 q로 들어가게 함
+(이떄 큐 front 문법이 앞인지 뒤인지 기억이 안나 좀 찾아봄. queue<string> q 이렇게 정의 하는 것도 확신이 없어서 확인해봄)
+#include <string>
+#include <vector>
+#include <queue>
+using namespace std;
+
+string solution(vector<string> cards1, vector<string> cards2, vector<string> goal) {
+    string answer = "";
+    queue <string> q1;
+    queue <string> q2;
+    vector <string> q;
+    for(int j=0; j<cards1.size(); j++){
+            q1.push(cards1[j]);
+        }
+    for(int j=0; j<cards2.size(); j++){
+            q2.push(cards2[j]);
+    }
+    
+    for(int i=0; i<goal.size(); i++){
+        if(!q1.empty() && goal[i] == q1.front()){  //나중에 알게된 실수 부분 다행히 비어있는게 없어서 통과는 함
+            q.push_back(q1.front());
+            q1.pop();
+        }
+        if(!q2.empty() && goal[i] == q2.front()){
+            q.push_back(q2.front());
+            q2.pop();
+        }
+    }
+    int j=0;
+    while(q[j] == goal[j]){
+        j++;
+    }
+    if(j == goal.size())
+        answer = "Yes";
+    else
+        answer = "No";
+    return answer;
+}
