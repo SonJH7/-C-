@@ -24,4 +24,110 @@ ch2 - 08 :: 해시
     -> 단점 : 공간 활용성 떨어짐, 검색 성능 떨어짐
   :: 개방 주소법으로 처리하기 : 빈 버킷을 찾아 삽입 -> 이중 해싱 방식 h(k,i)=(hi(k)+i*h(k))mod m, 선형 탐사 방식 h(k,i)=(h(k)+i)mod m
 
-문제 18 :: 두 개의 수로 특정 값 만들기 --> 저자출제
+문제 18 :: 두 개의 수로 특정 값 만들기 --> 저자출제(skip)
+문제 19 :: 문자열 해싱을 이용한 검색 함수 만들기 --> 저자출제(skip)
+
+문제 20 :: 완주하지 못한 선수 --> 프로그래머스_해시
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    for(int i=0; i<completion.size();i++){
+        for(int j=0; j<participant.size(); j++)
+            if(completion[i] == participant[j]){
+                participant[j] = "no";
+                break;
+            }
+    }
+    for(int i=0; i<participant.size(); i++)
+        if(participant[i] != "no")
+            answer = participant[i];
+    return answer;
+}
+이렇게 짜서 정확성은 만족시켰는데 효율성 부족 이유는 당연히 안다. 이중loop 그래서 맵을 이용해야하는 데 문법을 모르겠네 (문자열 해싱 -> 이름 자체를 인덱스로)
+
+알고리즘은 part 배열들 이름에 해당하는 배열들 다 세고 comp 배열들 센거 에서 빼면 하나 남은 그거 루프들어가서 찾기 문법 몰라서 gpt 행..
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    unordered_map<string, int> hashMap;
+
+    // 참가자를 해시 맵에 추가하며 카운트
+    for (const auto& p : participant) {
+        hashMap[p]++;
+    }
+
+    // 완주한 사람을 해시 맵에서 감소
+    for (const auto& c : completion) {
+        hashMap[c]--;
+    }
+
+    // 해시 맵에서 값이 1인 참가자가 완주하지 못한 사람
+    for (const auto& entry : hashMap) {
+        if (entry.second > 0) {
+            return entry.first; //p.294  저자 풀이 도 좋네!
+        }
+    }
+
+    return "";
+}
+
+문제 21 :: 영어 끝말잇기 --> summer/winter Coding 2018
+
+
+일단 전부 순회 하며 1) 뒷글자 첫글자 같은지 비교 다르면 --> 그 위치 리턴 2) 했던거 하면(set) -> 그 위치 리턴
+그 위치는 처음 1,1로 시작해서 전체 크기 나눗셈 활용하여 계속 증가
+gpt 프롬프트 : set에서 insert 메서드 까먹어서 한번, string 벡터 string 문자열 index 접근
+
+--> 답지 피드백 : 지리네...
+//이거 해시 완성하고 다시 오면 해시맵으로 풀기
+#include <string>
+#include <vector>
+#include <set>
+using namespace std;
+
+vector<int> solution(int n, vector<string> words) {
+    vector<int> answer;
+    set<string> word;
+    char temp = words[0][0];
+    int word_len = 0;
+    int person_index = 1;
+    int index = 1;
+    for(int i=0; i<words.size(); i++){
+        
+        
+        if(words[i][0] != temp){  // 밑에 두개 필터를 if(!useWords.insert(words[i]).second || words[i].front() != words[i-1].back()) 이렇게 써버림
+            answer.push_back(person_index); 
+            answer.push_back(index);
+            return answer;
+        }
+        temp = words[i][words[i].size()-1];
+        word.insert(words[i]);
+        word_len++;
+        
+        if(word.size()!= word_len){
+            answer.push_back(person_index);  // answer[0] = i%n +1;
+            answer.push_back(index);         // answer[1] = i/n +1;
+            return answer;
+        }
+        
+        
+        if(person_index % n == 0){
+            person_index = 1;
+            index++;
+        }
+        else
+            person_index++;
+    }
+
+    answer.push_back(0);
+    answer.push_back(0);
+    return answer;
+}
